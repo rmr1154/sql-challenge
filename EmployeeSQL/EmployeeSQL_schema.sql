@@ -1,66 +1,70 @@
+﻿-- Exported from QuickDBD: https://www.quickdatabasediagrams.com/
+-- NOTE! If you have used non-SQL datatypes in your design, you will have to change these here.
 
--- Drop table
 
--- DROP TABLE public.departments;
-
-CREATE TABLE public.departments (
-	dept_no varchar NULL,
-	dept_name varchar NULL
+CREATE TABLE "departments" (
+    "dept_no" varchar(8)   NOT NULL,
+    "dept_name" varchar(30)   NOT NULL,
+    CONSTRAINT "pk_departments" PRIMARY KEY (
+        "dept_no"
+     )
 );
 
--- Drop table
-
--- DROP TABLE public.dept_emp;
-
-CREATE TABLE public.dept_emp (
-	emp_no int4 NULL,
-	dept_no varchar NULL,
-	from_date date NULL,
-	to_date date NULL
+CREATE TABLE "dept_emp" (
+    "emp_no" int   NOT NULL,
+    "dept_no" varchar(8)   NOT NULL,
+    "from_date" date   NOT NULL,
+    "to_date" date   NOT NULL
 );
 
--- Drop table
-
--- DROP TABLE public.dept_manager;
-
-CREATE TABLE public.dept_manager (
-	dept_no varchar NULL,
-	emp_no int4 NULL,
-	from_date date NULL,
-	to_date date NULL
+CREATE TABLE "dept_manager" (
+    "dept_no" varchar(8)   NOT NULL,
+    "emp_no" int   NOT NULL,
+    "from_date" date   NOT NULL,
+    "to_date" date   NOT NULL
 );
 
--- Drop table
-
--- DROP TABLE public.employees;
-
-CREATE TABLE public.employees (
-	emp_no int4 NULL,
-	birth_date date NULL,
-	first_name varchar NULL,
-	last_name varchar NULL,
-	gender varchar(1) NULL,
-	hire_date date NULL
+CREATE TABLE "employees" (
+    "emp_no" int   NOT NULL,
+    "birth_date" date   NOT NULL,
+    "first_name" varchar(30)   NOT NULL,
+    "last_name" varchar(30)   NOT NULL,
+    "gender" varchar(1)   NOT NULL,
+    "hire_date" date   NOT NULL,
+    CONSTRAINT "pk_employees" PRIMARY KEY (
+        "emp_no"
+     )
 );
 
--- Drop table
-
--- DROP TABLE public.salaries;
-
-CREATE TABLE public.salaries (
-	emp_no int4 NULL,
-	salary numeric NULL,
-	from_date date NULL,
-	to_date date NULL
+CREATE TABLE "salaries" (
+    "emp_no" int   NOT NULL,
+    "salary" numeric   NOT NULL,
+    "from_date" date   NOT NULL,
+    "to_date" date   NOT NULL
 );
 
--- Drop table
-
--- DROP TABLE public.titles;
-
-CREATE TABLE public.titles (
-	emp_no int4 NULL,
-	title varchar NULL,
-	from_date date NULL,
-	to_date date NULL
+CREATE TABLE "titles" (
+    "emp_no" int   NOT NULL,
+    "title" varchar(30)   NOT NULL,
+    "from_date" date   NOT NULL,
+    "to_date" date   NOT NULL
 );
+
+ALTER TABLE "dept_emp" ADD CONSTRAINT "fk_dept_emp_emp_no" FOREIGN KEY("emp_no")
+REFERENCES "employees" ("emp_no");
+
+ALTER TABLE "dept_emp" ADD CONSTRAINT "fk_dept_emp_dept_no" FOREIGN KEY("dept_no")
+REFERENCES "departments" ("dept_no");
+
+ALTER TABLE "dept_manager" ADD CONSTRAINT "fk_dept_manager_dept_no" FOREIGN KEY("dept_no")
+REFERENCES "departments" ("dept_no");
+
+ALTER TABLE "dept_manager" ADD CONSTRAINT "fk_dept_manager_emp_no" FOREIGN KEY("emp_no")
+REFERENCES "employees" ("emp_no");
+
+ALTER TABLE "salaries" ADD CONSTRAINT "fk_salaries_emp_no" FOREIGN KEY("emp_no")
+REFERENCES "employees" ("emp_no");
+
+ALTER TABLE "titles" ADD CONSTRAINT "fk_titles_emp_no" FOREIGN KEY("emp_no")
+REFERENCES "employees" ("emp_no");
+
